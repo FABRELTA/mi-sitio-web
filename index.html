@@ -3,59 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Sitio Web con Anuncios</title>
+    <title>Gana Dinero con ClickBank</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            margin-top: 50px;
         }
-        #ads {
+        video {
+            width: 80%;
+            max-width: 600px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
             margin-top: 20px;
         }
         button {
+            margin-top: 20px;
             padding: 10px 20px;
-            background-color: #28a745;
+            font-size: 16px;
+            background-color: #4CAF50;
             color: white;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
-        button:disabled {
-            background-color: #ccc;
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-    <h1>¡Bienvenido a mi sitio web!</h1>
-    <p>Ver anuncios y gana puntos.</p>
+    <h1>¡Descubre Este Increíble Producto!</h1>
+    <p>Mira este video y haz clic para más información.</p>
 
-    <button id="adButton" onclick="showAd()">Ver Anuncio (1 punto)</button>
+    <!-- Video promocional -->
+    <video controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Tu navegador no soporta este video.
+    </video>
 
-    <div id="ads"></div>
+    <!-- Botón con enlace de afiliado -->
+    <br>
+    <button onclick="window.open('https://tu-enlace-de-clickbank.com', '_blank')">Más información</button>
 
-    <p id="points">Puntos: 0</p>
-
-    <script>
-        let puntos = 0;
-
-        function showAd() {
-            // Deshabilita el botón para evitar múltiples clics
-            document.getElementById('adButton').disabled = true;
-
-            // Aquí insertamos el código de PropellerAds (Reemplaza 'XXXXXXX' con tu código de anuncio)
-            var adScript = document.createElement('script');
-            adScript.type = 'text/javascript';
-            adScript.async = true;
-            adScript.src = 'https://propellerads.com/c/8872183.js';  // Reemplaza con tu ID de anuncio
-            document.getElementById('ads').appendChild(adScript);
-
-            // Incrementa los puntos después de un tiempo (esperamos que el anuncio termine)
-            setTimeout(function() {
-                puntos++;
-                document.getElementById('points').innerText = "Puntos: " + puntos;
-                document.getElementById('adButton').disabled = false; // Vuelve a habilitar el botón
-            }, 10000);  // Espera 10 segundos para simular que el usuario ve el anuncio
-        }
-    </script>
+    <p>Gana puntos o aprende más sobre este increíble producto.</p>
 </body>
 </html>
