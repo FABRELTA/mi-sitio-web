@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Sitio Web con Anuncios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #ads {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Bienvenido a mi sitio web!</h1>
+    <p>Ver anuncios y gana puntos.</p>
+
+    <button id="adButton" onclick="showAd()">Ver Anuncio (1 punto)</button>
+
+    <div id="ads"></div>
+
+    <p id="points">Puntos: 0</p>
+
+    <script>
+        let puntos = 0;
+
+        function showAd() {
+            // Deshabilita el botón para evitar múltiples clics
+            document.getElementById('adButton').disabled = true;
+
+            // Aquí insertamos el código de PropellerAds (Reemplaza 'XXXXXXX' con tu código de anuncio)
+            var adScript = document.createElement('script');
+            adScript.type = 'text/javascript';
+            adScript.async = true;
+            adScript.src = 'https://propellerads.com/c/XXXXXXX.js';  // Reemplaza con tu ID de anuncio
+            document.getElementById('ads').appendChild(adScript);
+
+            // Incrementa los puntos después de un tiempo (esperamos que el anuncio termine)
+            setTimeout(function() {
+                puntos++;
+                document.getElementById('points').innerText = "Puntos: " + puntos;
+                document.getElementById('adButton').disabled = false; // Vuelve a habilitar el botón
+            }, 10000);  // Espera 10 segundos para simular que el usuario ve el anuncio
+        }
+    </script>
+</body>
+</html>
