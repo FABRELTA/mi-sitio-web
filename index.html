@@ -3,51 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ganando puntos con anuncios</title>
+    <title>Ganar puntos con anuncios</title>
 </head>
 <body>
 
-    <!-- Mostrar puntos -->
     <h2>Puntos: <span id="puntos">0</span></h2>
 
-    <!-- Botón para mostrar anuncio -->
+    <!-- Botón para ver el anuncio -->
     <button id="verAnuncioBtn">Ver anuncio de video</button>
 
-    <!-- Contenedor para el anuncio de video -->
+    <!-- Contenedor del anuncio de video -->
     <div id="adContainer" style="display:none; text-align:center;">
         <h3>¡Gracias por ver el anuncio!</h3>
-        <video width="320" height="240" controls>
-            <source src="https://path_to_video_ad.mp4" type="video/mp4">
-            Tu navegador no soporta el elemento de video.
-        </video>
+        <!-- Inserta aquí el código del anuncio de video -->
+        <iframe src="https://www.profitablecpmrate.com/kmf5847v?key=caaebd2b3e16abfda6363ffe5136d046" width="640" height="360"></iframe>
     </div>
 
     <script>
-        // Función para incrementar puntos
         let puntos = 0;
 
+        // Incrementar puntos
         function aumentarPuntos() {
             puntos++;
             document.getElementById("puntos").innerText = puntos;
         }
 
-        // Función para mostrar el anuncio
+        // Mostrar anuncio cuando el usuario hace clic
         document.getElementById("verAnuncioBtn").addEventListener("click", function() {
-            // Mostrar el anuncio
+            // Mostrar el contenedor del anuncio
             document.getElementById("adContainer").style.display = "block";
-            
-            // Esperar a que el usuario vea el video
-            let video = document.querySelector("video");
-            video.onended = function() {
-                // Cuando termine el video, aumentar los puntos
-                aumentarPuntos();
-                
-                // Ocultar el anuncio
-                document.getElementById("adContainer").style.display = "none";
-            };
 
-            // Reproducir el video
-            video.play();
+            // Simular que el usuario ha visto el anuncio
+            setTimeout(function() {
+                aumentarPuntos(); // Aumentar puntos después de un tiempo (cuando se asume que se vio el anuncio)
+                document.getElementById("adContainer").style.display = "none"; // Ocultar el anuncio
+            }, 5000); // Simular que el anuncio se ve durante 5 segundos
         });
     </script>
 
