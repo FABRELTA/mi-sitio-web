@@ -3,49 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gana Dinero con ClickBank</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        video {
-            width: 80%;
-            max-width: 600px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Ganando puntos con anuncios</title>
 </head>
 <body>
-    <h1>¡Descubre Este Increíble Producto!</h1>
-    <p>Mira este video y haz clic para más información.</p>
 
-    <!-- Video promocional -->
-    <video controls>
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-        Tu navegador no soporta este video.
-    </video>
+    <!-- Mostrar puntos -->
+    <h2>Puntos: <span id="puntos">0</span></h2>
 
-    <!-- Botón con enlace de afiliado -->
-    <br>
-    <button onclick="window.open('https://tu-enlace-de-clickbank.com', '_blank')">Más información</button>
+    <!-- Botón para mostrar anuncio -->
+    <button id="verAnuncioBtn">Ver anuncio de video</button>
 
-    <p>Gana puntos o aprende más sobre este increíble producto.</p>
+    <!-- Contenedor para el anuncio de video -->
+    <div id="adContainer" style="display:none; text-align:center;">
+        <h3>¡Gracias por ver el anuncio!</h3>
+        <video width="320" height="240" controls>
+            <source src="https://path_to_video_ad.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    </div>
+
+    <script>
+        // Función para incrementar puntos
+        let puntos = 0;
+
+        function aumentarPuntos() {
+            puntos++;
+            document.getElementById("puntos").innerText = puntos;
+        }
+
+        // Función para mostrar el anuncio
+        document.getElementById("verAnuncioBtn").addEventListener("click", function() {
+            // Mostrar el anuncio
+            document.getElementById("adContainer").style.display = "block";
+            
+            // Esperar a que el usuario vea el video
+            let video = document.querySelector("video");
+            video.onended = function() {
+                // Cuando termine el video, aumentar los puntos
+                aumentarPuntos();
+                
+                // Ocultar el anuncio
+                document.getElementById("adContainer").style.display = "none";
+            };
+
+            // Reproducir el video
+            video.play();
+        });
+    </script>
+
 </body>
 </html>
