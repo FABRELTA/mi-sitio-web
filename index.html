@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor de YouTube Interactivo</title>
+    <title>Reproductor de YouTube Short con Contador de Vistas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            padding: 20px;
         }
         iframe {
-            border: none;
             width: 80%;
             height: 400px;
             margin-top: 20px;
+            border: none;
         }
         input, button {
             padding: 10px;
@@ -23,41 +24,49 @@
     </style>
 </head>
 <body>
-    <h1>Reproductor de YouTube Interactivo</h1>
-    <p>Introduce el ID del video de YouTube y la duración en segundos:</p>
-    <input type="text" id="videoId" placeholder="ID del video de YouTube">
-    <input type="number" id="duration" placeholder="Duración en segundos" min="1">
-    <button onclick="playAndCountViews()">Reproducir y Contar Vistas</button>
+    <h1>Reproductor de YouTube Short con Contador de Vistas</h1>
+    <p>Introduce el ID del YouTube Short:</p>
+    <input type="text" id="videoId" value="szbIetjlweY" placeholder="ID del video de YouTube Short">
+    <button onclick="playVideo()">Reproducir Video</button>
     <br><br>
     <iframe id="youtubePlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <p id="viewsCount">Vistas: 0</p>
 
     <script>
-        const apiKey = 'YOUR_YOUTUBE_API_KEY'; // Reemplaza con tu API Key
+        const apiKey = 'YOUR_YOUTUBE_API_KEY'; // Asegúrate de reemplazar con tu API Key válida
 
-        function playAndCountViews() {
+        function playVideo() {
             const videoId = document.getElementById("videoId").value;
-            const duration = parseInt(document.getElementById("duration").value);
-
-            if (!videoId || isNaN(duration) || duration <= 0) {
-                alert("Por favor, ingresa un ID de video válido y una duración válida.");
+            
+            // Validación del ID del video
+            if (!videoId) {
+                alert("Por favor, ingresa un ID de video válido.");
                 return;
             }
 
-            // Cargar el video en el iframe
+            // Cargar el video de YouTube Short en el iframe
             const iframe = document.getElementById("youtubePlayer");
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=0&end=${duration}`;
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
 
-            // Consultar el número de vistas del video
+            // Consultar el número de vistas del video usando la API de YouTube
             fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('No se pudo obtener la información del video.');
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    const views = data.items[0].statistics.viewCount;
-                    document.getElementById("viewsCount").innerText = `Vistas: ${views}`;
+                    if (data.items && data.items.length > 0) {
+                        const views = data.items[0].statistics.viewCount;
+                        document.getElementById("viewsCount").innerText = `Vistas: ${views}`;
+                    } else {
+                        throw new Error('No se encontraron vistas para este video.');
+                    }
                 })
                 .catch(error => {
-                    console.error('Error al obtener las vistas:', error);
-                    document.getElementById("viewsCount").innerText = "Error al obtener vistas.";
+                    console.error('Error al obtener vistas:', error);
+                    document.getElementById("viewsCount").innerText = `Error: ${error.message}`;
                 });
         }
     </script>
