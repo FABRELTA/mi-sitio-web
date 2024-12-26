@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor de YouTube en Bucle</title>
+    <title>Reproductor de YouTube (20 segundos)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,8 +24,8 @@
     </style>
 </head>
 <body>
-    <h1>Reproductor de YouTube en Bucle</h1>
-    <p>Introduce el número de veces que deseas reproducir el video:</p>
+    <h1>Reproductor de YouTube (20 segundos)</h1>
+    <p>Introduce el número de veces que deseas reproducir 20 segundos:</p>
     <input type="number" id="repeatCount" placeholder="Número de veces" min="1">
     <br>
     <button onclick="startLoop()">Iniciar Reproducción</button>
@@ -53,19 +53,17 @@
         function playVideo() {
             if (currentRepetitions < repeatCount) {
                 const iframe = document.getElementById("youtubePlayer");
-                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                iframe.src = `https://www.youtube.com/embed/${videoId}?start=0&end=20&autoplay=1`;
 
-                // Escuchar el final del video y reproducirlo nuevamente
-                iframe.onload = () => {
+                // Esperar 20 segundos antes de la próxima reproducción
+                setTimeout(() => {
                     currentRepetitions++;
-                    setTimeout(() => {
-                        if (currentRepetitions < repeatCount) {
-                            playVideo(); // Volver a cargar el video
-                        } else {
-                            alert("La reproducción ha terminado.");
-                        }
-                    }, 3000); // Esperar 3 segundos antes de reiniciar
-                };
+                    if (currentRepetitions < repeatCount) {
+                        playVideo();
+                    } else {
+                        alert("La reproducción ha terminado.");
+                    }
+                }, 20000); // 20 segundos en milisegundos
             }
         }
     </script>
