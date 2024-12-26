@@ -30,31 +30,6 @@
 </head>
 <body>
     <h1>Reproductor de Videos de YouTube</h1>
-    <p>Introduce la URL del video que deseas reproducir:</p>
-    <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=ID_DEL_VIDEO">
-    <br>
-    <button onclick="loadVideo()">Reproducir Video</button>
-    <br><br>
-    <iframe id="youtubePlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-    <script>
-        function loadVideo() {
-            const url = document.getElementById("videoUrl").value;
-            const videoId = extractVideoId(url);
-
-            if (videoId) {
-                const iframe = document.getElementById("youtubePlayer");
-                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            } else {
-                alert("Por favor, introduce una URL válida de YouTube.");
-            }
-        }
-
-        function extractVideoId(url) {
-            const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/;
-            const match = url.match(regex);
-            return match ? match[1] : null;
-        }
-    </script>
+    <iframe id="youtubePlayer" src="https://www.youtube.com/embed/T2N8JA7jbYQ?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </body>
 </html>
