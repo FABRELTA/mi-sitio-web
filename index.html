@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor de YouTube Personalizado</title>
+    <title>Reproductor de YouTube Interactivo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 20px;
         }
         iframe {
             border: none;
@@ -24,51 +23,42 @@
     </style>
 </head>
 <body>
-    <h1>Reproductor de YouTube Personalizado</h1>
-    <p>Introduce el número de segundos para reproducir y cuántas veces repetir:</p>
+    <h1>Reproductor de YouTube Interactivo</h1>
+    <p>Introduce el ID del video de YouTube y la duración en segundos:</p>
+    <input type="text" id="videoId" placeholder="ID del video de YouTube">
     <input type="number" id="duration" placeholder="Duración en segundos" min="1">
-    <input type="number" id="repeatCount" placeholder="Repeticiones" min="1">
-    <br>
-    <button onclick="startLoop()">Iniciar Reproducción</button>
+    <button onclick="playAndCountViews()">Reproducir y Contar Vistas</button>
     <br><br>
     <iframe id="youtubePlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <p id="viewsCount">Vistas: 0</p>
 
     <script>
-        const videoId = "T2N8JA7jbYQ"; // ID del video
-        let repeatCount = 0; // Número de repeticiones restantes
-        let duration = 0; // Duración especificada en segundos
-        let currentRepetitions = 0; // Conteo actual de repeticiones
+        const apiKey = 'YOUR_YOUTUBE_API_KEY'; // Reemplaza con tu API Key
 
-        function startLoop() {
-            // Obtener valores de duración y repeticiones
-            duration = parseInt(document.getElementById("duration").value);
-            repeatCount = parseInt(document.getElementById("repeatCount").value);
+        function playAndCountViews() {
+            const videoId = document.getElementById("videoId").value;
+            const duration = parseInt(document.getElementById("duration").value);
 
-            // Validar entradas
-            if (isNaN(duration) || duration <= 0 || isNaN(repeatCount) || repeatCount <= 0) {
-                alert("Por favor, introduce valores válidos para duración y repeticiones.");
+            if (!videoId || isNaN(duration) || duration <= 0) {
+                alert("Por favor, ingresa un ID de video válido y una duración válida.");
                 return;
             }
 
-            currentRepetitions = 0;
-            playVideo();
-        }
+            // Cargar el video en el iframe
+            const iframe = document.getElementById("youtubePlayer");
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=0&end=${duration}`;
 
-        function playVideo() {
-            if (currentRepetitions < repeatCount) {
-                const iframe = document.getElementById("youtubePlayer");
-                iframe.src = `https://www.youtube.com/embed/${videoId}?start=0&end=${duration}&autoplay=1`;
-
-                // Esperar la duración especificada antes de la próxima reproducción
-                setTimeout(() => {
-                    currentRepetitions++;
-                    if (currentRepetitions < repeatCount) {
-                        playVideo(); // Reproducir de nuevo
-                    } else {
-                        alert("La reproducción ha terminado.");
-                    }
-                }, duration * 1000); // Convertir segundos a milisegundos
-            }
+            // Consultar el número de vistas del video
+            fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    const views = data.items[0].statistics.viewCount;
+                    document.getElementById("viewsCount").innerText = `Vistas: ${views}`;
+                })
+                .catch(error => {
+                    console.error('Error al obtener las vistas:', error);
+                    document.getElementById("viewsCount").innerText = "Error al obtener vistas.";
+                });
         }
     </script>
 </body>
