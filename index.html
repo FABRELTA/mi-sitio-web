@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor de YouTube</title>
+    <title>Reproductor de YouTube en Bucle</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,22 +14,60 @@
             border: none;
             width: 80%;
             height: 400px;
+            margin-top: 20px;
         }
-        input {
+        input, button {
             padding: 10px;
             font-size: 16px;
-            width: 300px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
+            margin: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Reproductor de Videos de YouTube</h1>
-    <iframe id="youtubePlayer" src="https://www.youtube.com/embed/T2N8JA7jbYQ?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <h1>Reproductor de YouTube en Bucle</h1>
+    <p>Introduce el número de veces que deseas reproducir el video:</p>
+    <input type="number" id="repeatCount" placeholder="Número de veces" min="1">
+    <br>
+    <button onclick="startLoop()">Iniciar Reproducción</button>
+    <br><br>
+    <iframe id="youtubePlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+    <script>
+        const videoId = "T2N8JA7jbYQ"; // ID del video
+        let repeatCount = 0; // Número de repeticiones restantes
+        let currentRepetitions = 0; // Conteo actual de repeticiones
+
+        function startLoop() {
+            const countInput = document.getElementById("repeatCount").value;
+            repeatCount = parseInt(countInput);
+
+            if (isNaN(repeatCount) || repeatCount <= 0) {
+                alert("Por favor, introduce un número válido de repeticiones.");
+                return;
+            }
+
+            currentRepetitions = 0;
+            playVideo();
+        }
+
+        function playVideo() {
+            if (currentRepetitions < repeatCount) {
+                const iframe = document.getElementById("youtubePlayer");
+                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+                // Escuchar el final del video y reproducirlo nuevamente
+                iframe.onload = () => {
+                    currentRepetitions++;
+                    setTimeout(() => {
+                        if (currentRepetitions < repeatCount) {
+                            playVideo(); // Volver a cargar el video
+                        } else {
+                            alert("La reproducción ha terminado.");
+                        }
+                    }, 3000); // Esperar 3 segundos antes de reiniciar
+                };
+            }
+        }
+    </script>
 </body>
 </html>
