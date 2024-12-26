@@ -1,93 +1,59 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pago por Nequi con Clave Dinámica</title>
+    <title>Reproductor de YouTube</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 90%;
-            max-width: 600px;
-            margin: 50px auto;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        h1 {
-            color: #6e00ff;
             text-align: center;
+            margin: 20px;
         }
-        p {
-            line-height: 1.5;
-            margin-bottom: 10px;
+        iframe {
+            border: none;
+            width: 80%;
+            height: 400px;
         }
-        .steps {
-            margin: 20px 0;
-        }
-        .steps li {
-            margin-bottom: 10px;
-        }
-        .highlight {
-            color: #6e00ff;
-            font-weight: bold;
-        }
-        .note {
-            background: #ffeeba;
+        input {
             padding: 10px;
-            border-radius: 5px;
-            margin: 15px 0;
+            font-size: 16px;
+            width: 300px;
         }
         button {
-            background-color: #6e00ff;
-            color: white;
             padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            width: 100%;
             font-size: 16px;
-        }
-        button:hover {
-            background-color: #5500cc;
+            cursor: pointer;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Paga con Nequi - Clave Dinámica</h1>
-        <p>¡Sigue estos pasos para realizar el pago usando tu cuenta Nequi!</p>
-        <ol class="steps">
-            <li>Abre la aplicación <span class="highlight">Nequi</span> en tu celular.</li>
-            <li>Ve a la sección <span class="highlight">"Saca Plata"</span> y selecciona <span class="highlight">Clave Dinámica</span>.</li>
-            <li>Genera una <span class="highlight">clave de 6 dígitos</span>.</li>
-            <li>Envíame la clave dinámica generada junto con tu número de Nequi.</li>
-            <li>Completa el proceso y espera la confirmación del pago.</li>
-        </ol>
-        <div class="note">
-            <strong>Nota:</strong> La clave dinámica es válida solo por 30 minutos. Asegúrate de enviarla rápidamente.
-        </div>
-        <button onclick="copyDetails()">Compartir Datos</button>
-        <p id="copyMessage" style="display: none; color: green; text-align: center;">¡Detalles copiados al portapapeles!</p>
-    </div>
+    <h1>Reproductor de Videos de YouTube</h1>
+    <p>Introduce la URL del video que deseas reproducir:</p>
+    <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=ID_DEL_VIDEO">
+    <br>
+    <button onclick="loadVideo()">Reproducir Video</button>
+    <br><br>
+    <iframe id="youtubePlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
     <script>
-        function copyDetails() {
-            const nequiDetails = "Envíame tu clave dinámica y tu número de Nequi.";
-            navigator.clipboard.writeText(nequiDetails).then(() => {
-                document.getElementById('copyMessage').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('copyMessage').style.display = 'none';
-                }, 3000);
-            });
+        function loadVideo() {
+            const url = document.getElementById("videoUrl").value;
+            const videoId = extractVideoId(url);
+
+            if (videoId) {
+                const iframe = document.getElementById("youtubePlayer");
+                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            } else {
+                alert("Por favor, introduce una URL válida de YouTube.");
+            }
+        }
+
+        function extractVideoId(url) {
+            const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
         }
     </script>
 </body>
