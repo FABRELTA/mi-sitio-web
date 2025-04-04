@@ -3,72 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor de YouTube Short con Contador de Vistas</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        iframe {
-            width: 80%;
-            height: 400px;
-            margin-top: 20px;
-            border: none;
-        }
-        input, button {
-            padding: 10px;
-            font-size: 16px;
-            margin: 10px;
-        }
-    </style>
+    <title>Acceso Directo</title>
+    <link rel="icon" href="icono.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <h1>Reproductor de YouTube Short con Contador de Vistas</h1>
-    <p>Introduce el ID del YouTube Short:</p>
-    <input type="text" id="videoId" value="szbIetjlweY" placeholder="ID del video de YouTube Short">
-    <button onclick="playVideo()">Reproducir Video</button>
-    <br><br>
-    <iframe id="youtubePlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <p id="viewsCount">Vistas: 0</p>
-
     <script>
-        const apiKey = 'YOUR_YOUTUBE_API_KEY'; // Asegúrate de reemplazar con tu API Key válida
-
-        function playVideo() {
-            const videoId = document.getElementById("videoId").value;
-            
-            // Validación del ID del video
-            if (!videoId) {
-                alert("Por favor, ingresa un ID de video válido.");
-                return;
-            }
-
-            // Cargar el video de YouTube Short en el iframe
-            const iframe = document.getElementById("youtubePlayer");
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-
-            // Consultar el número de vistas del video usando la API de YouTube
-            fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('No se pudo obtener la información del video.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.items && data.items.length > 0) {
-                        const views = data.items[0].statistics.viewCount;
-                        document.getElementById("viewsCount").innerText = `Vistas: ${views}`;
-                    } else {
-                        throw new Error('No se encontraron vistas para este video.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al obtener vistas:', error);
-                    document.getElementById("viewsCount").innerText = `Error: ${error.message}`;
-                });
-        }
+        window.location.href = "googlechrome://www.tusitio.com";
     </script>
 </body>
 </html>
